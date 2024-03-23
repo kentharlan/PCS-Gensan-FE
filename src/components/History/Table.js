@@ -24,12 +24,12 @@ const History = () => {
     })
     const [filter, setFilter] = useState({
         search: '',
-        start_date: dayjs().subtract(1, "month"),
+        start_date: dayjs(),
         end_date: dayjs()
     })
     const [paymentFilter, setPaymentFilter] = useState({
         user_id: '',
-        start_date: dayjs().subtract(1, "month"),
+        start_date: dayjs(),
         end_date: dayjs()
     })
 
