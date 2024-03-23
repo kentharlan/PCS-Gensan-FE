@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { Button } from "@mui/material"
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from '../../api/axios'
 import Checkin from "./Checkin"
 import Checkout from "./Checkout"
@@ -12,6 +13,17 @@ import TimedOut from "./Timedout"
 const GET_ROOMS_URL = "/rooms"
 const INIT_ROOMS = "/txn/init"
 const GET_ACTIVE_TXNS_URL = "/txn/txns/active"
+
+const theme = createTheme({
+    palette: {
+    half_hour_left: {
+        main: '#E3D026',
+        light: '#E9DB5D',
+        dark: '#A29415',
+        contrastText: '#242105',
+    },
+    },
+});
 
 const Rooms = () => {
     const [rooms, setRooms] = useState([]);
@@ -180,16 +192,17 @@ const Rooms = () => {
         }
 
         return (
-            <Button
-                sx={{ height: "100%", width: "100%" }}
-                variant="contained"
-                key={room.rooms_no}
-                color={color}
-                className={timers[room.rooms_no]?.time <= 900 ? 'blinking-button' : ''}
-                onClick={() => handleButton(room)}
-            >
-                {room.room_no}
-            </Button>
+            <ThemeProvider theme={theme}>
+                <Button
+                    sx={{ height: "100%", width: "100%" }}
+                    variant="contained"
+                    key={room.rooms_no}
+                    color={timers[room.room_no]?.time <= 1800 ? "half_hour_left" : color}
+                    onClick={() => handleButton(room)}
+                >
+                    {room.room_no}
+                </Button>
+            </ThemeProvider>
         )
     };
 

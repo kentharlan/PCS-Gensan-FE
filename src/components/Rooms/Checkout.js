@@ -7,6 +7,7 @@ import { useAuthUser } from "react-auth-kit";
 import CheckOutConfirmation from "./CheckOutConfirmation";
 import AddTime from "./AddTime";
 import Cancel from "./Cancel";
+import Pay from "./Pay"
 
 const GET_TXN_URL = "/txn/";
 const GET_RATE_URL = "/rates/"
@@ -35,7 +36,7 @@ const Checkout = (props) => {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [])
+    }, [openInnerModal])
 
     useEffect(() => {
         calculateBill();
@@ -49,6 +50,7 @@ const Checkout = (props) => {
             setDuration(duration * 60 * 60)
             setValues({
                 ...values,
+                dt_check_in: txn.dt_check_in,
                 original_bill: parseInt(txn.bill),
                 new_bill: parseInt(txn.bill)
             });
@@ -98,6 +100,7 @@ const Checkout = (props) => {
                 setOpenInnerModal={setOpenInnerModal}
                 setOpenModal={setOpenModal}
                 room_no={room.room_no}
+                bill={values.original_bill}
             />
         })
 
@@ -147,6 +150,19 @@ const Checkout = (props) => {
         setOpenInnerModal(true)
     }
 
+    const handlePay = async () => {
+        setModalConfig({
+            title: `Room ${room.room_no}`,
+            content: <Pay
+                setOpenInnerModal={setOpenInnerModal}
+                room={room}
+                bill={values.original_bill}
+            />
+        })
+
+        setOpenInnerModal(true)
+    }
+
     return (
         <>
             <Typography variant="h6">
@@ -159,15 +175,26 @@ const Checkout = (props) => {
                 Status: Occupied
             </Typography>
             <Typography variant="h6">
-                Transaction No: {values.transaction_no}
+                Check-in Time: {new Date(values.dt_check_in).toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
             </Typography>
             <Typography variant="h6">
                 Time Left: {formatTime(time)}
             </Typography>
+            <Typography variant="h6">
+                Bill: {values.new_bill}
+                <Button 
+                    variant="contained"
+                    onClick={handlePay}
+                    sx={{width: "25%", position: "absolute", right: "15%"}}
+                    disabled={values.original_bill <= 0}
+                >
+                    {values.original_bill > 0 ? "Pay" : "Paid"}
+                </Button>
+            </Typography>
             <TextField
                 variant="filled"
                 type="number"
-                label='Additional Time'
+                label='Additional Time in Hours'
                 name="additional_time"
                 value={values.additional_time}
                 onChange={handleChange}
@@ -175,13 +202,10 @@ const Checkout = (props) => {
                 autoComplete='off'
                 fullWidth
                 inputProps={{ min: "0" }}
-                sx={{ marginTop: "2%", marginBottom: "5%" }}
+                sx={{ marginTop: "10%" }}
             />
-            <Typography variant="h6">
-                Bill: {values.new_bill}
-            </Typography>
 
-            <div style={{ textAlign: "center", marginTop: "10%" }}>
+            <div style={{ textAlign: "center", marginTop: "5%" }}>
                 <Button variant="contained" onClick={handleCheckout} sx={{ margin: "1% 1%", width: "48%" }}>Check Out</Button>
                 <Button variant="contained" onClick={handleAddTime} sx={{ margin: "1% 1%", width: "48%" }}>Add Time</Button>
                 <Button variant="contained" onClick={handleTransfer} sx={{ margin: "1% 1%", width: "48%" }}>Transfer</Button>

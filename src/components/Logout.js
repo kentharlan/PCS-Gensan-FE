@@ -1,14 +1,18 @@
 import { Button, Typography } from "@mui/material"
 import { useSignOut } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
+import axios from '../api/axios'
 
+const LOGOUT_URL = '/login/logout';
 
 const Logout = (props) => {
     const { setOpenModal } = props
     const singout = useSignOut();
     const navigate = useNavigate();
 
-    const signOut = () => {
+    const signOut = async () => {
+        await axios.post(LOGOUT_URL)
+
         setOpenModal(false);
         singout();
         navigate("/login");

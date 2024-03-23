@@ -27,7 +27,7 @@ const TimedOut = (props) => {
 
     const checkOutRoom = async () => {
         try {
-            await axios.post(CHECK_OUT_URL, { room_no: room.room_no, user_id: auth().id });
+            await axios.post(CHECK_OUT_URL, { room_no: room.room_no, bill, user_id: auth().id });
             setOpenModal(false);
         } catch (error) {
             console.log(error.message);
@@ -36,15 +36,23 @@ const TimedOut = (props) => {
 
     return (
         <>
-            <Typography variant="h6" sx={{textAlign: "center", width: "20vw"}}>
-                Check out <b>Room {room.room_no}</b>?
-            </Typography>
+            { 
+                bill <= 0 ?
+                    <Typography variant="h5" sx={{marginBottom: "12%", textAlign: "center"}}>
+                        Are you sure you want to Check Out <b>Room {room.room_no}</b>?
+                    </Typography>
+                :
+                    <>
+                    <Typography variant="h5" sx={{textAlign: "center", marginBottom: "5%"}}>
+                        Are you sure you want to Check Out <b>Room {room.room_no}</b> with unpaid bill?
+                    </Typography>
+                    <Typography variant="h5">
+                        Bill: <b style={{color: "red"}}>₱{bill}</b>
+                    </Typography>
+                    </>
+            }
 
-            <Typography variant="h6" sx={{margin: "5% 5%", marginBottom: "15%"}}>
-                Bill: {bill}
-            </Typography>
-
-            <div style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "center", marginTop: "12%" }}>
                 <Button variant="contained" onClick={() => checkOutRoom()} sx={{ margin: "0 6px" }}>Check Out</Button>
                 <Button variant="contained" onClick={() => setOpenModal(false)} sx={{ margin: "0 6px" }}>Cancel</Button>
             </div>
