@@ -4,14 +4,13 @@ import axios from '../../api/axios'
 const UPDATE_URL = "/txn/update";
 
 const AddTime = (props) => {
-    const { room_no, values, setOpenModal, setOpenInnerModal } = props; 
+    const { room_no, values, setOpenInnerModal } = props; 
     const suffix = values.additional_time > 1 ? "hours" : "hour"
 
     const handleCheckout = async () => {
         try {
             await axios.post(UPDATE_URL, values);
             setOpenInnerModal(false)
-            setOpenModal(false);
         } catch (error) {
             console.log(error.message);
         }

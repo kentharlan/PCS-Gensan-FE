@@ -113,7 +113,6 @@ const Checkout = (props) => {
                 title: "Add Time",
                 content: <AddTime
                     setOpenInnerModal={setOpenInnerModal}
-                    setOpenModal={setOpenModal}
                     values={values}
                     room_no={room.room_no}
                 />
