@@ -20,7 +20,8 @@ const Checkout = (props) => {
         transaction_no: room.transaction_no,
         additional_time: 0,
         original_bill: 0,
-        new_bill: 0
+        new_bill: 0,
+        duration: 0
     }
     const [values, setValues] = useState(initialValues)
     const [rate, setRate] = useState(0);
@@ -57,7 +58,8 @@ const Checkout = (props) => {
                 ...prev,
                 dt_check_in: txn.dt_check_in,
                 original_bill: parseInt(txn.bill),
-                new_bill: parseInt(txn.bill)
+                new_bill: parseInt(txn.bill),
+                duration: duration
             }));
 
             const res = await axios.get(GET_RATE_URL + txn.rate_id);
@@ -180,6 +182,9 @@ const Checkout = (props) => {
             </Typography>
             <Typography variant="h6">
                 Check-in Time: {new Date(values.dt_check_in).toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
+            </Typography>
+            <Typography variant="h6">
+                Duration: {`${values.duration} hours`}
             </Typography>
             <Typography variant="h6">
                 Time Left: {formatTime(time)}
