@@ -4,7 +4,7 @@ import Login from './Login';
 import Rooms from './Rooms/Rooms';
 import Accounts from './Accounts/Accounts';
 import Rates from './Rates/Rates';
-import History from './History/Table';
+import History from './History/History';
 import { Routes, Route } from 'react-router-dom';
 import { RequireAuth } from 'react-auth-kit'
 

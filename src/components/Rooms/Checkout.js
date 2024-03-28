@@ -31,6 +31,11 @@ const Checkout = (props) => {
 
     useEffect(() => {
         getTxn();
+        setValues(prev => ({
+            ...prev,
+            additional_time: 0
+        }));
+
         const interval = setInterval(() => {
             setTime((time) => time - 1);
         }, 1000);
@@ -48,12 +53,12 @@ const Checkout = (props) => {
             const txn = result?.data;
             const duration = parseInt(txn.base_time) + parseInt(txn.additional_time);
             setDuration(duration * 60 * 60)
-            setValues({
-                ...values,
+            setValues(prev => ({
+                ...prev,
                 dt_check_in: txn.dt_check_in,
                 original_bill: parseInt(txn.bill),
                 new_bill: parseInt(txn.bill)
-            });
+            }));
 
             const res = await axios.get(GET_RATE_URL + txn.rate_id);
             const Rate = res?.data
@@ -67,10 +72,10 @@ const Checkout = (props) => {
 
     const calculateBill = () => {
         const new_bill = values.original_bill + (values.additional_time * rate)
-        setValues({
-            ...values,
+        setValues(prev => ({
+            ...prev,
             new_bill: new_bill
-        });
+        }));
     }
 
     function formatTime(seconds) {
@@ -87,10 +92,10 @@ const Checkout = (props) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setValues({
-            ...values,
+        setValues(prev => ({
+            ...prev,
             [name]: value
-        });
+        }));
     }
 
     const handleCheckout = async () => {

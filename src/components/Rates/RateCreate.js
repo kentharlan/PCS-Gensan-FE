@@ -28,32 +28,32 @@ const RateCreate = (props) => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setValues({
-            ...values,
+        setValues(prev => ({
+            ...prev,
             [name]: value
-        });
+        }));
     }
 
     const handleGarageChange = (e) => {
         const { name, value } = e.target;
-        setValues({
-            ...values,
+        setValues(prev => ({
+            ...prev,
             garage: {
                 ...values.garage,
                 [name]: value
             }
-        });
+        }));
     }
 
     const handleNoGarageChange = (e) => {
         const { name, value } = e.target;
-        setValues({
-            ...values,
+        setValues(prev => ({
+            ...prev,
             no_garage: {
                 ...values.no_garage,
                 [name]: value
             }
-        });
+        }));
     }
 
     const handleSubmit = async (e) => {

@@ -66,10 +66,10 @@ const Checkin = (props) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setValues({
-            ...values,
+        setValues(prev => ({
+            ...prev,
             [name]: value
-        });
+        }));
     }
 
     const handleSubmit = async (event) => {

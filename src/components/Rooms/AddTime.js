@@ -9,6 +9,8 @@ const AddTime = (props) => {
 
     const handleCheckout = async () => {
         try {
+            values.new_bill = values.new_bill - values.original_bill
+
             await axios.post(UPDATE_URL, values);
             setOpenInnerModal(false)
         } catch (error) {
