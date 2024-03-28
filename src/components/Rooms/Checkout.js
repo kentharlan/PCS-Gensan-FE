@@ -26,7 +26,7 @@ const Checkout = (props) => {
     const [values, setValues] = useState(initialValues)
     const [rate, setRate] = useState(0);
     const [time, setTime] = useState(timee);
-    const [duration, setDuration] = useState(0);
+    const [durationInSeconds, setDurationInSeconds] = useState(0);
     const [openInnerModal, setOpenInnerModal] = useState(false);
     const [modalConfig, setModalConfig] = useState([]);
 
@@ -52,8 +52,15 @@ const Checkout = (props) => {
         try {
             const result = await axios.get(GET_TXN_URL + room.transaction_no);
             const txn = result?.data;
-            const duration = parseInt(txn.base_time) + parseInt(txn.additional_time);
-            setDuration(duration * 60 * 60)
+
+            const duration = parseInt(txn.duration);
+            const checkin_dt = new Date(txn.dt_check_in);
+            const current_dt = new Date();
+            const diff = (checkin_dt.setTime(checkin_dt.getTime() + (duration * 60 * 60 * 1000))) - current_dt
+            const initialTime = Math.floor(diff / 1000)
+
+            setTime(initialTime)
+            setDurationInSeconds(duration * 60 * 60)
             setValues(prev => ({
                 ...prev,
                 dt_check_in: txn.dt_check_in,
@@ -218,7 +225,7 @@ const Checkout = (props) => {
                 <Button variant="contained" onClick={handleCheckout} sx={{ margin: "1% 1%", width: "48%" }}>Check Out</Button>
                 <Button variant="contained" onClick={handleAddTime} sx={{ margin: "1% 1%", width: "48%" }}>Add Time</Button>
                 <Button variant="contained" onClick={handleTransfer} sx={{ margin: "1% 1%", width: "48%" }}>Transfer</Button>
-                <Button variant="contained" onClick={handleCancel} disabled={!((duration - time) < 900 || auth().admin)} sx={{ margin: "1% 1%", width: "48%" }}>Abort</Button>
+                <Button variant="contained" onClick={handleCancel} disabled={!((durationInSeconds - time) < 900 || auth().admin)} sx={{ margin: "1% 1%", width: "48%" }}>Abort</Button>
             </div>
 
             <Modal

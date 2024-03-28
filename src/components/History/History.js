@@ -174,11 +174,12 @@ const History = () => {
                             </TableBody>
                         <TableFooter sx={{ '.MuiTableRow-root': { position: "sticky", bottom: 0, backgroundColor: "#fff" } }}>
                             <TableRow>
+                                <TableCell />
                                 <TableCell align="right" style={{ fontWeight: "bold", fontSize: "larger" }}>Total Rooms</TableCell>
                                 <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>{history.totalRooms}</TableCell>
                                 <TableCell align="right" style={{ fontWeight: "bold", fontSize: "larger" }}>Total Revenue</TableCell>
                                 <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>{history.totalAmount}</TableCell>
-                                <TableCell colSpan={3} align="center" style={{ fontWeight: "bold", fontSize: "larger" }}></TableCell>
+                                <TableCell colSpan={3} />
                             </TableRow>
                         </TableFooter>
                         </Table>
