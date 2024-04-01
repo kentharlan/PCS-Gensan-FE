@@ -1,28 +1,58 @@
-import { Button, Typography } from "@mui/material"
+import { Button, TextField } from "@mui/material"
+import { useState } from "react";
 import axios from '../../api/axios'
 
 const UPDATE_URL = "/txn/update";
 
 const AddTime = (props) => {
-    const { room_no, values, setOpenInnerModal } = props; 
-    const suffix = values.additional_time > 1 ? "hours" : "hour"
+    const { room_no, transaction_no, rate, setOpenInnerModal, setOpenModal, timed_out } = props; 
+    const [values, setValues] = useState({
+        additional_time: 0,
+        additional_bill: 0
+    })
 
     const handleCheckout = async () => {
         try {
-            values.new_bill = values.new_bill - values.original_bill
-
-            await axios.post(UPDATE_URL, values);
-            setOpenInnerModal(false)
+            if (values.additional_time > 0){
+                await axios.post(UPDATE_URL, {
+                    room_no,
+                    transaction_no,
+                    timed_out,
+                    additional_time: values.additional_time,
+                    additional_bill: values.additional_bill
+                });
+    
+                setOpenInnerModal(false)
+                if (timed_out) setOpenModal(false)
+            }
         } catch (error) {
             console.log(error.message);
         }
     }
 
+    const handleChange = (e) => {
+        const { value } = e.target;
+        setValues({
+            additional_time: parseInt(value, 10),
+            additional_bill: parseInt(value, 10) * parseInt(rate, 10)
+        });
+    }
+
     return (
         <>
-            <Typography variant="h5" sx={{marginBottom: "12%", textAlign: "center"}}>
-                Are you sure you want to Add <b>{values.additional_time}</b> {suffix} to <b>Room {room_no}</b>?
-            </Typography>
+            <TextField
+                variant="filled"
+                type="number"
+                label='Additional Time in Hours'
+                name="additional_time"
+                value={values.additional_time}
+                onChange={handleChange}
+                required
+                autoComplete='off'
+                fullWidth
+                inputProps={{ min: "0" }}
+                sx={{ marginBottom: "12%" }}
+            />
 
             <div style={{ textAlign: "center" }}>
                 <Button variant="contained" onClick={() => handleCheckout()} sx={{ margin: "0 6px" }}>Confirm</Button>

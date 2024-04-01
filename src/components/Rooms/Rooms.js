@@ -145,7 +145,6 @@ const Rooms = () => {
                     content: <Checkout
                         setOpenModal={setOpenModal}
                         room={room}
-                        timee={timers[room.room_no]?.time}
                     />
                 })
                 break;
@@ -191,13 +190,19 @@ const Rooms = () => {
                 break;
         }
 
+        const shouldBlink = timers[room.room_no]?.time <= 300;
+
         return (
             <ThemeProvider theme={theme}>
                 <Button
-                    sx={{ height: "100%", width: "100%" }}
+                    sx={{ 
+                        height: "100%",
+                        width: "100%",
+                        animation: shouldBlink ? "blink 1s linear infinite" : "none"
+                    }}
                     variant="contained"
                     key={room.rooms_no}
-                    color={timers[room.room_no]?.time <= 1800 ? "half_hour_left" : color}
+                    color={timers[room.room_no]?.time <= 600 ? "half_hour_left" : color}
                     onClick={() => handleButton(room)}
                 >
                     {room.room_no}

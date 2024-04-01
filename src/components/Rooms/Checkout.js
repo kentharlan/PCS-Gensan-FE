@@ -1,4 +1,4 @@
-import { Button, Typography, TextField } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 import { useState, useEffect } from "react";
 import axios from '../../api/axios'
 import Modal from "../Modal";
@@ -14,28 +14,21 @@ const GET_RATE_URL = "/rates/"
 
 const Checkout = (props) => {
     const auth = useAuthUser();
-    const { room, timee, setOpenModal } = props;
+    const { room, setOpenModal } = props;
     const type = room.type === "garage" ? "With Garage" : "Without Garage";
-    const initialValues = {
+    const [values, setValues] = useState({
         transaction_no: room.transaction_no,
-        additional_time: 0,
-        original_bill: 0,
-        new_bill: 0,
+        bill: 0,
         duration: 0
-    }
-    const [values, setValues] = useState(initialValues)
+    })
     const [rate, setRate] = useState(0);
-    const [time, setTime] = useState(timee);
+    const [time, setTime] = useState(0);
     const [durationInSeconds, setDurationInSeconds] = useState(0);
     const [openInnerModal, setOpenInnerModal] = useState(false);
-    const [modalConfig, setModalConfig] = useState([]);
+    const [modalConfig, setModalConfig] = useState({});
 
     useEffect(() => {
         getTxn();
-        setValues(prev => ({
-            ...prev,
-            additional_time: 0
-        }));
 
         const interval = setInterval(() => {
             setTime((time) => time - 1);
@@ -43,10 +36,6 @@ const Checkout = (props) => {
 
         return () => clearInterval(interval);
     }, [openInnerModal])
-
-    useEffect(() => {
-        calculateBill();
-    }, [values.additional_time])
 
     const getTxn = async () => {
         try {
@@ -64,8 +53,7 @@ const Checkout = (props) => {
             setValues(prev => ({
                 ...prev,
                 dt_check_in: txn.dt_check_in,
-                original_bill: parseInt(txn.bill),
-                new_bill: parseInt(txn.bill),
+                bill: parseInt(txn.bill),
                 duration: duration
             }));
 
@@ -77,14 +65,6 @@ const Checkout = (props) => {
         } catch (error) {
             console.log(error.message)
         }
-    }
-
-    const calculateBill = () => {
-        const new_bill = values.original_bill + (values.additional_time * rate)
-        setValues(prev => ({
-            ...prev,
-            new_bill: new_bill
-        }));
     }
 
     function formatTime(seconds) {
@@ -99,14 +79,6 @@ const Checkout = (props) => {
         return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
     }
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setValues(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    }
-
     const handleCheckout = async () => {
         setModalConfig({
             title: "Room Check Out",
@@ -114,7 +86,7 @@ const Checkout = (props) => {
                 setOpenInnerModal={setOpenInnerModal}
                 setOpenModal={setOpenModal}
                 room_no={room.room_no}
-                bill={values.original_bill}
+                bill={values.bill}
             />
         })
 
@@ -122,18 +94,18 @@ const Checkout = (props) => {
     }
 
     const handleAddTime = async () => {
-        if (values.additional_time > 0) {
-            setModalConfig({
-                title: "Add Time",
-                content: <AddTime
-                    setOpenInnerModal={setOpenInnerModal}
-                    values={values}
-                    room_no={room.room_no}
-                />
-            })
+        setModalConfig({
+            title: `Room ${room.room_no}`,
+            content: <AddTime
+                setOpenInnerModal={setOpenInnerModal}
+                timed_out={false}
+                room_no={room.room_no}
+                transaction_no={room.transaction_no}
+                rate ={rate}
+            />
+        })
 
-            setOpenInnerModal(true)
-        }
+       setOpenInnerModal(true)
     }
 
     const handleTransfer = async () => {
@@ -169,7 +141,7 @@ const Checkout = (props) => {
             content: <Pay
                 setOpenInnerModal={setOpenInnerModal}
                 room={room}
-                bill={values.original_bill}
+                bill={values.bill}
             />
         })
 
@@ -197,31 +169,18 @@ const Checkout = (props) => {
                 Time Left: {formatTime(time)}
             </Typography>
             <Typography variant="h6">
-                Bill: {values.new_bill}
+                Bill: {values.bill}
                 <Button 
                     variant="contained"
                     onClick={handlePay}
                     sx={{width: "25%", position: "absolute", right: "15%"}}
-                    disabled={values.original_bill <= 0}
+                    disabled={values.bill <= 0}
                 >
-                    {values.original_bill > 0 ? "Pay" : "Paid"}
+                    {values.bill > 0 ? "Pay" : "Paid"}
                 </Button>
             </Typography>
-            <TextField
-                variant="filled"
-                type="number"
-                label='Additional Time in Hours'
-                name="additional_time"
-                value={values.additional_time}
-                onChange={handleChange}
-                required
-                autoComplete='off'
-                fullWidth
-                inputProps={{ min: "0" }}
-                sx={{ marginTop: "10%" }}
-            />
 
-            <div style={{ textAlign: "center", marginTop: "5%" }}>
+            <div style={{ textAlign: "center", marginTop: "10%" }}>
                 <Button variant="contained" onClick={handleCheckout} sx={{ margin: "1% 1%", width: "48%" }}>Check Out</Button>
                 <Button variant="contained" onClick={handleAddTime} sx={{ margin: "1% 1%", width: "48%" }}>Add Time</Button>
                 <Button variant="contained" onClick={handleTransfer} sx={{ margin: "1% 1%", width: "48%" }}>Transfer</Button>
