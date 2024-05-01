@@ -22,7 +22,7 @@ const UserDelete = (props) => {
             </Typography>
 
             <div style={{ textAlign: "center" }}>
-                <Button variant="contained" onClick={() => deleteUser(user.id)} sx={{ margin: "0 6px" }}>Delete</Button>
+                <Button variant="contained" color="error" onClick={() => deleteUser(user.id)} sx={{ margin: "0 6px" }}>Delete</Button>
                 <Button variant="contained" onClick={() => setOpenModal(false)} sx={{ margin: "0 6px" }}>Cancel</Button>
             </div>
         </>

@@ -110,6 +110,7 @@ const Rates = () => {
                 openModal={openModal}
                 setOpenModal={setOpenModal}
                 title={modalConfig.title}
+                width={"65vw"}
             >
                 {modalConfig.content}
             </Modal>
@@ -140,7 +141,7 @@ function Row(props) {
                     <Button variant="contained" startIcon={<Edit />} onClick={() => handleEditButton(rate)} sx={{ margin: "0 3px" }}>
                         Edit
                     </Button>
-                    <Button variant="contained" startIcon={<Delete />} onClick={() => handleDeleteButton(rate)} sx={{ margin: "0 3px" }} disabled={rate.rate_id === 1}>
+                    <Button variant="contained" color="error" startIcon={<Delete />} onClick={() => handleDeleteButton(rate)} sx={{ margin: "0 3px" }} disabled={rate.rate_id === 1}>
                         Delete
                     </Button>
                 </TableCell>
@@ -152,9 +153,16 @@ function Row(props) {
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
+                                        <TableCell colSpan={6} align="center">
+                                            <Typography variant="h6" fontWeight="bold">
+                                                Room Rates
+                                            </Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
                                         <TableCell align="left">
                                             <Typography fontWeight="bold">
-                                                Type
+                                                Room Type
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="center">
@@ -187,19 +195,70 @@ function Row(props) {
                                 <TableBody>
                                     <TableRow>
                                         <TableCell align="left">With Garage</TableCell>
-                                        <TableCell align="center">{rate.garage.hourly}</TableCell>
-                                        <TableCell align="center">{rate.garage.three}</TableCell>
-                                        <TableCell align="center">{rate.garage.six}</TableCell>
-                                        <TableCell align="center">{rate.garage.twelve}</TableCell>
-                                        <TableCell align="center">{rate.garage.twenty_four}</TableCell>
+                                        <TableCell align="center">₱ {rate.garage.hourly}</TableCell>
+                                        <TableCell align="center">₱ {rate.garage.three}</TableCell>
+                                        <TableCell align="center">₱ {rate.garage.six}</TableCell>
+                                        <TableCell align="center">₱ {rate.garage.twelve}</TableCell>
+                                        <TableCell align="center">₱ {rate.garage.twenty_four}</TableCell>
                                     </TableRow>
                                     <TableRow>
                                         <TableCell align="left">Without Garage</TableCell>
-                                        <TableCell align="center">{rate.no_garage.hourly}</TableCell>
-                                        <TableCell align="center">{rate.no_garage.three}</TableCell>
-                                        <TableCell align="center">{rate.no_garage.six}</TableCell>
-                                        <TableCell align="center">{rate.no_garage.twelve}</TableCell>
-                                        <TableCell align="center">{rate.no_garage.twenty_four}</TableCell>
+                                        <TableCell align="center">₱ {rate.no_garage.hourly}</TableCell>
+                                        <TableCell align="center">₱ {rate.no_garage.three}</TableCell>
+                                        <TableCell align="center">₱ {rate.no_garage.six}</TableCell>
+                                        <TableCell align="center">₱ {rate.no_garage.twelve}</TableCell>
+                                        <TableCell align="center">₱ {rate.no_garage.twenty_four}</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell colSpan={6} align="center">
+                                            <Typography variant="h6" fontWeight="bold">
+                                                Amenities
+                                            </Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell align="center">
+                                            <Typography fontWeight="bold">
+                                                
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Typography fontWeight="bold">
+                                                Extra Pillow
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Typography fontWeight="bold">
+                                                Extra Towel
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Typography fontWeight="bold">
+                                                Extra Small Bed
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Typography fontWeight="bold">
+                                                Extra Bed
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Typography fontWeight="bold">
+                                                Extra Person
+                                            </Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell align="center"></TableCell>
+                                        <TableCell align="center">₱ {rate.extra_pillow}</TableCell>
+                                        <TableCell align="center">₱ {rate.extra_towel}</TableCell>
+                                        <TableCell align="center">₱ {rate.extra_small_bed}</TableCell>
+                                        <TableCell align="center">₱ {rate.extra_bed}</TableCell>
+                                        <TableCell align="center">₱ {rate.extra_person}</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>

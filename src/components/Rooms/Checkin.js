@@ -10,9 +10,14 @@ const Checkin = (props) => {
     const type = room.type === "garage" ? "With Garage" : "Without Garage";
     const initialValues = {
         room_no: room.room_no,
-        rate_id: 1,
+        rate_id: '',
         base_time: 3,
         additional_time: 0,
+        extra_pillow: 0,
+        extra_towel: 0,
+        extra_small_bed: 0,
+        extra_bed: 0,
+        extra_person: 0
     }
     const [values, setValues] = useState(initialValues);
     const [total, setTotal] = useState(0);
@@ -31,6 +36,10 @@ const Checkin = (props) => {
             const result = await axios.get(GET_RATES_URL);
             const data = result?.data;
             setRates(data);
+            setValues(prev => ({
+                ...prev,
+                rate_id: 1
+            }));
             calculateTotal(data);
         } catch (error) {
             console.log(error.message)
@@ -42,25 +51,31 @@ const Checkin = (props) => {
 
         let base_time_name = null;
 
-            switch (values.base_time) {
-                case 3:
-                    base_time_name = "three";
-                    break;
-                case 6:
-                    base_time_name = "six";
-                    break;
-                case 12:
-                    base_time_name = "twelve";
-                    break;
-                case 24:
-                    base_time_name = "twenty_four";
-                    break;
-            }
-            const rate = Rates.find(r => r.rate_id === values.rate_id);
-            const rate_type = rate[room.type];
-            const time_rate = rate_type[base_time_name];
-            const total = parseInt(time_rate) + (parseInt(rate_type.hourly) * parseInt(values.additional_time));
-            setTotal(total);
+        switch (values.base_time) {
+            case 3:
+                base_time_name = "three";
+                break;
+            case 6:
+                base_time_name = "six";
+                break;
+            case 12:
+                base_time_name = "twelve";
+                break;
+            case 24:
+                base_time_name = "twenty_four";
+                break;
+        }
+        const rate = Rates.find(r => r.rate_id === values.rate_id);
+        const rate_type = rate[room.type];
+        const time_rate = rate_type[base_time_name];
+        const total = parseInt(time_rate)
+            + (parseInt(rate_type.hourly) * parseInt(values.additional_time))
+            + (parseInt(values.extra_pillow) * parseInt(rate.extra_pillow))
+            + (parseInt(values.extra_towel) * parseInt(rate.extra_towel))
+            + (parseInt(values.extra_small_bed) * parseInt(rate.extra_small_bed))
+            + (parseInt(values.extra_bed) * parseInt(rate.extra_bed))
+            + (parseInt(values.extra_person) * parseInt(rate.extra_person))
+        setTotal(total);
     }
 
     const handleChange = (e) => {
@@ -83,72 +98,176 @@ const Checkin = (props) => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <Typography variant="h6">
-                Room No: {room.room_no}
-            </Typography>
-            <Typography variant="h6">
-                Room Type: {type}
-            </Typography>
-            <Typography variant="h6">
-                Status: Vacant
-            </Typography>
-            <TextField
-                select
-                variant="filled"
-                label='Rate'
-                name="rate_id"
-                value={values.rate_id}
-                onChange={handleChange}
-                required
-                autoComplete='off'
-                fullWidth
-                sx={{ marginTop: "2%"}}
-            >
-                {rates.map((rate) => (
-                    <MenuItem key={rate.rate_id} value={rate.rate_id}>{rate.name}</MenuItem>
-                ))}
-            </TextField>
-            <TextField
-                select
-                variant="filled"
-                label='Base Time'
-                name="base_time"
-                value={values.base_time}
-                onChange={handleChange}
-                required
-                autoComplete='off'
-                fullWidth
-                sx={{ marginTop: "2%" }}
-            >
-                <MenuItem key={3} value={3}>3</MenuItem>
-                <MenuItem key={6} value={6}>6</MenuItem>
-                <MenuItem key={12} value={12}>12</MenuItem>
-                <MenuItem key={24} value={24}>24</MenuItem>
-            </TextField>
-            <TextField
-                variant="filled"
-                type="number"
-                label='Additional Time'
-                name="additional_time"
-                value={values.additional_time}
-                onChange={handleChange}
-                required
-                autoComplete='off'
-                fullWidth
-                inputProps={{ min: "0" }}
-                sx={{ marginTop: "2%", marginBottom: "5%" }}
-            />
-            <Typography variant="h6">
-                Total: {total}
-            </Typography>
+        <>
+            <table>
+                <tr>
+                    <td colSpan={2}>
+                        <Typography variant="h6">
+                            Room No: {room.room_no}
+                        </Typography>
+                    </td>
+                </tr>
+                <tr>
+                    <td colSpan={2}>
+                        <Typography variant="h6">
+                            Room Type: {type}
+                        </Typography>
+                    </td>
+                </tr>
+                <tr>
+                    <td colSpan={2}>
+                        <Typography variant="h6">
+                            Status: Vacant
+                        </Typography>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <TextField
+                            select
+                            variant="filled"
+                            label='Rate'
+                            name="rate_id"
+                            value={values.rate_id}
+                            onChange={handleChange}
+                            required
+                            autoComplete='off'
+                            fullWidth
+                            style={{ marginBottom: "5%" }}
+                        >
+                            {rates.map((rate) => (
+                                <MenuItem key={rate.rate_id} value={rate.rate_id}>{rate.name}</MenuItem>
+                            ))}
+                        </TextField>
+                    </td>
+                </tr>
+                <tr>
+                    <td style={{ width: "50%" }}>
+                        <TextField
+                            select
+                            variant="filled"
+                            label='Base Time'
+                            name="base_time"
+                            value={values.base_time}
+                            onChange={handleChange}
+                            required
+                            autoComplete='off'
+                            fullWidth
+                            style={{ marginBottom: "5%" }}
+                        >
+                            <MenuItem key={3} value={3}>3</MenuItem>
+                            <MenuItem key={6} value={6}>6</MenuItem>
+                            <MenuItem key={12} value={12}>12</MenuItem>
+                            <MenuItem key={24} value={24}>24</MenuItem>
+                        </TextField>
+                    </td>
+                    <td style={{ width: "50%" }}>
+                        <TextField
+                            variant="filled"
+                            type="number"
+                            label='Additional Time'
+                            name="additional_time"
+                            value={values.additional_time}
+                            onChange={handleChange}
+                            required
+                            autoComplete='off'
+                            fullWidth
+                            inputProps={{ min: "0" }}
+                            style={{ marginBottom: "5%" }}
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td style={{ width: "50%" }}>
+                        <TextField
+                            variant="filled"
+                            type="number"
+                            label='Extra Pillows'
+                            name="extra_pillow"
+                            value={values.extra_pillow}
+                            onChange={handleChange}
+                            required
+                            autoComplete='off'
+                            inputProps={{ min: "0" }}
+                        />
+                    </td>
+                    <td style={{ width: "50%" }}>
+                        <TextField
+                            variant="filled"
+                            type="number"
+                            label='Extra Towels'
+                            name="extra_towel"
+                            value={values.extra_towel}
+                            onChange={handleChange}
+                            required
+                            autoComplete='off'
+                            inputProps={{ min: "0" }}
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <TextField
+                            variant="filled"
+                            type="number"
+                            label='Extra Small Bed'
+                            name="extra_small_bed"
+                            value={values.extra_small_bed}
+                            onChange={handleChange}
+                            required
+                            autoComplete='off'
+                            fullWidth
+                            inputProps={{ min: "0" }}
+                        />
+                    </td>
+                    <td>
+                        <TextField
+                            variant="filled"
+                            type="number"
+                            label='Extra Bed'
+                            name="extra_bed"
+                            value={values.extra_bed}
+                            onChange={handleChange}
+                            required
+                            autoComplete='off'
+                            fullWidth
+                            inputProps={{ min: "0" }}
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <TextField
+                            variant="filled"
+                            type="number"
+                            label='Extra Person'
+                            name="extra_person"
+                            value={values.extra_person}
+                            onChange={handleChange}
+                            required
+                            autoComplete='off'
+                            fullWidth
+                            inputProps={{ min: "0" }}
+                            style={{ marginBottom: "5%" }}
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td colSpan={2}>
+                        <Typography variant="h6">
+                            Total: {total}
+                        </Typography>
 
-            <div style={{ textAlign: "center", marginTop: "10%" }}>
-                <Button variant="contained" type="submit" sx={{ margin: "0 6px" }}>Check In</Button>
+                    </td>
+                </tr>
+            </table>
+
+            <div style={{ textAlign: "center", marginTop: "5%" }}>
+                <Button variant="contained" onClick={handleSubmit} sx={{ margin: "0 6px" }}>Check In</Button>
                 {/* <Button variant="contained" sx={{ margin: "0 6px" }}>Open Time</Button> */}
                 <Button variant="contained" onClick={() => setOpenModal(false)} sx={{ margin: "0 6px" }}>Cancel</Button>
             </div>
-        </form>
+        </>
     )
 }
 

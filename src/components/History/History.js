@@ -150,7 +150,7 @@ const History = () => {
                             />
                         </LocalizationProvider>
                     </Box>
-                        
+
                     <TableContainer component={Paper} sx={{ flexGrow: 1, overflow: "auto" }}>
                         <Table stickyHeader aria-label="simple table">
                             <TableHead>
@@ -160,6 +160,7 @@ const History = () => {
                                     <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>Room</TableCell>
                                     <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>Duration</TableCell>
                                     <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>Bill</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>Rate</TableCell>
                                     <TableCell align="left" style={{ fontWeight: "bold", fontSize: "larger" }}>Check In</TableCell>
                                     <TableCell align="left" style={{ fontWeight: "bold", fontSize: "larger" }}>Check Out</TableCell>
                                     <TableCell align="left" style={{ fontWeight: "bold", fontSize: "larger" }}>Remarks</TableCell>
@@ -172,16 +173,16 @@ const History = () => {
                                     />
                                 ))}
                             </TableBody>
-                        <TableFooter sx={{ '.MuiTableRow-root': { position: "sticky", bottom: 0, backgroundColor: "#fff" } }}>
-                            <TableRow>
-                                <TableCell />
-                                <TableCell align="right" style={{ fontWeight: "bold", fontSize: "larger" }}>Total Rooms</TableCell>
-                                <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>{history.totalRooms}</TableCell>
-                                <TableCell align="right" style={{ fontWeight: "bold", fontSize: "larger" }}>Total Revenue</TableCell>
-                                <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>{history.totalAmount}</TableCell>
-                                <TableCell colSpan={3} />
-                            </TableRow>
-                        </TableFooter>
+                            <TableFooter sx={{ '.MuiTableRow-root': { position: "sticky", bottom: 0, backgroundColor: "#fff" } }}>
+                                <TableRow>
+                                    <TableCell />
+                                    <TableCell align="right" style={{ fontWeight: "bold", fontSize: "larger" }}>Total Rooms</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>{history.totalRooms}</TableCell>
+                                    <TableCell align="right" style={{ fontWeight: "bold", fontSize: "larger" }}>Total Revenue</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>₱ {history.totalAmount}</TableCell>
+                                    <TableCell colSpan={3} />
+                                </TableRow>
+                            </TableFooter>
                         </Table>
                     </TableContainer>
                 </Paper>
@@ -197,7 +198,7 @@ const History = () => {
                             name="user_id"
                             value={sessionFilter.user_id}
                             onChange={handleSessionChange}
-                            sx={{ width: "15%", marginRight: "auto"  }}
+                            sx={{ width: "15%", marginRight: "auto" }}
                         >
                             <MenuItem value={""}>All</MenuItem>
                             {users.map((user) => (
@@ -225,7 +226,7 @@ const History = () => {
                             />
                         </LocalizationProvider>
                     </Box>
-                        
+
                     <TableContainer component={Paper} sx={{ flexGrow: 1, overflow: "auto" }}>
                         <Table stickyHeader aria-label="simple table">
                             <TableHead>
@@ -243,7 +244,7 @@ const History = () => {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell align="left">{row.cashier}</TableCell>
-                                        <TableCell align="center">{row.total_amount}</TableCell>
+                                        <TableCell align="center">₱ {row.total_amount}</TableCell>
                                         <TableCell align="left">{row.login_dt}</TableCell>
                                         <TableCell align="left">{row.logout_dt}</TableCell>
 
@@ -262,6 +263,22 @@ const History = () => {
 function Row(props) {
     const { txn } = props;
     const [open, setOpen] = React.useState(false);
+    const amenities = {
+        "Additional Time": txn.additional_time,
+        "Extra Pillow": txn.extra_pillow,
+        "Extra Towel": txn.extra_towel,
+        "Extra Small Bed": txn.extra_small_bed,
+        "Extra Bed": txn.extra_bed,
+        "Extra Person": txn.extra_person
+    }
+    const amounts = {
+        "Additional Time": txn.additional_time_amount,
+        "Extra Pillow": txn.extra_pillow_amount,
+        "Extra Towel": txn.extra_towel_amount,
+        "Extra Small Bed": txn.extra_small_bed_amount,
+        "Extra Bed": txn.extra_bed_amount,
+        "Extra Person": txn.extra_person_amount
+    }
 
     return (
         <React.Fragment>
@@ -278,49 +295,105 @@ function Row(props) {
                 <TableCell align="left">{txn.transaction_no}</TableCell>
                 <TableCell align="center">{txn.room_no}</TableCell>
                 <TableCell align="center">{txn.duration}</TableCell>
-                <TableCell align="center">{txn.bill}</TableCell>
+                <TableCell align="center">₱ {txn.bill}</TableCell>
+                <TableCell align="center">{txn.rate}</TableCell>
                 <TableCell align="left">{txn.dt_check_in}</TableCell>
                 <TableCell align="left">{txn.dt_check_out}</TableCell>
                 <TableCell align="left">{txn.remarks}</TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0, background: "rgba(0, 0, 0, 0.1)" }} colSpan={10}>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0, background: "rgba(0, 0, 0, 0.1)" }} colSpan={9}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1, marginBottom: "2vh" }}>
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell colSpan={3} />
-                                        <TableCell colSpan={2} align="left">
+                                        <TableCell style={{ width: "10%" }} />
+                                        <TableCell style={{ width: "30%" }} align="left">
                                             <Typography fontWeight="bold">
-                                                Cashier
+                                                Item
                                             </Typography>
                                         </TableCell>
-                                        <TableCell colSpan={2} align="center">
+                                        <TableCell style={{ width: "30%" }} align="center">
+                                            <Typography fontWeight="bold">
+                                                Quantity
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell style={{ width: "30%" }} align="center">
                                             <Typography fontWeight="bold">
                                                 Amount
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell colSpan={3} align="center">
-                                            <Typography fontWeight="bold">
-                                                Payment Date
                                             </Typography>
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {txn.payments && txn.payments.map((row) => (
-                                        <TableRow
-                                            key={row.payment_id}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell colSpan={3} />
-                                            <TableCell colSpan={2} align="left">{row.cashier}</TableCell>
-                                            <TableCell colSpan={2} align="center">{row.amount}</TableCell>
-                                            <TableCell colSpan={3} align="center">{row.payment_dt}</TableCell>
-                                        </TableRow>
-                                    ))}
+                                    <TableRow
+                                        key={"base_time"}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell style={{ width: "10%" }} />
+                                        <TableCell style={{ width: "30%" }} align="left">Base Time</TableCell>
+                                        <TableCell style={{ width: "30%" }} align="center">{txn.base_time}</TableCell>
+                                        <TableCell style={{ width: "30%" }} align="center">₱ {txn.base_time_amount}</TableCell>
+                                    </TableRow>
+                                    {Object.entries(amenities).map(([key, value]) => {
+                                        if (value > 0) {
+                                            return (
+                                                <TableRow
+                                                    key={key}
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell style={{ width: "10%" }} />
+                                                    <TableCell style={{ width: "30%" }} align="left">{key}</TableCell>
+                                                    <TableCell style={{ width: "30%" }} align="center">{value}</TableCell>
+                                                    <TableCell style={{ width: "30%" }} align="center">₱ {amounts[key]}</TableCell>
+                                                </TableRow>
+                                            )
+                                        }
+                                    })}
                                 </TableBody>
+                                {txn.payments.length > 0 && <>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell colSpan={9} align="center">
+                                                <Typography variant="h5" fontWeight="bold">
+                                                    Payments
+                                                </Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell style={{ width: "10%" }} />
+                                            <TableCell style={{ width: "30%" }} align="left">
+                                                <Typography fontWeight="bold">
+                                                    Cashier
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell style={{ width: "30%" }} align="center">
+                                                <Typography fontWeight="bold">
+                                                    Payment Date
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell style={{ width: "30%" }} align="center">
+                                                <Typography fontWeight="bold">
+                                                    Amount
+                                                </Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {txn.payments.map((row) => (
+                                            <TableRow
+                                                key={row.payment_id}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell style={{ width: "10%" }} />
+                                                <TableCell style={{ width: "30%" }} align="left">{row.cashier}</TableCell>
+                                                <TableCell style={{ width: "30%" }} align="center">{row.payment_dt}</TableCell>
+                                                <TableCell style={{ width: "30%" }} align="center">₱ {row.amount}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </>}
                             </Table>
                         </Box>
                     </Collapse>

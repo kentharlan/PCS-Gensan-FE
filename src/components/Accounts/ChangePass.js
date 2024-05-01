@@ -33,29 +33,38 @@ const ChangePass = (props) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <TextField
-                type="password"
-                variant="filled"
-                label='Password'
-                name="password"
-                value={values.password}
-                onChange={handeInputChange}
-                required
-                autoComplete='off'
-                sx={{ width: "49%", margin: "0 1% 2% 0" }}
-            />
-            <TextField
-                type="password"
-                variant="filled"
-                label='Confirm Password'
-                name="confirm_password"
-                value={values.confirm_password}
-                onChange={handeInputChange}
-                required
-                autoComplete='off'
-                sx={{ width: "49%", margin: "0 0 2% 1%" }}
-            />
-            <div style={{ textAlign: "center" }}>
+            <table>
+                <tr>
+                    <td>
+                        <TextField
+                            variant="filled"
+                            label='Password'
+                            type="password"
+                            name="password"
+                            value={values.password}
+                            onChange={handeInputChange}
+                            required
+                            autoComplete='off'
+                            sx={{ width: "100%", marginBottom: "1%" }}
+                        />
+                    </td>
+                    <td>
+                        <TextField
+                            variant="filled"
+                            label='Confirm Password'
+                            type="password"
+                            name="confirmPassword"
+                            value={values.confirm_password}
+                            onChange={handeInputChange}
+                            required
+                            autoComplete='off'
+                            sx={{ width: "100%", marginBottom: "1%" }}
+                        />
+                    </td>
+                </tr>
+            </table>
+
+            <div style={{ textAlign: "center", marginTop: "3%"}}>
                 <Button variant="contained" type="submit" sx={{ margin: "0 6px" }}>Confirm</Button>
                 <Button variant="contained" onClick={() => setOpenModal(false)} sx={{ margin: "0 6px" }}>Cancel</Button>
             </div>

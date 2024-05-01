@@ -22,7 +22,7 @@ const RateDelete = (props) => {
             </Typography>
 
             <div style={{ textAlign: "center" }}>
-                <Button variant="contained" onClick={() => deleteUser(rate.rate_id)} sx={{ margin: "0 6px" }}>Delete</Button>
+                <Button variant="contained" color="error" onClick={() => deleteUser(rate.rate_id)} sx={{ margin: "0 6px" }}>Delete</Button>
                 <Button variant="contained" onClick={() => setOpenModal(false)} sx={{ margin: "0 6px" }}>Cancel</Button>
             </div>
         </>

@@ -38,10 +38,10 @@ const Accounts = () => {
 
     const handleAddButton = () => {
         setModalConfig({
-            title: "ADD ACCOUNT",
+            title: "CREATE NEW ACCOUNT",
             content: <UserCreate
                 setOpenModal={setOpenModal}
-            />
+            />,
         });
         setOpenModal(true);
     }
@@ -125,7 +125,7 @@ const Accounts = () => {
                                     <Button variant="contained" startIcon={<Edit />} onClick={() => handleChangePassButton(user.id)} sx={{ margin: "0 3px" }}>
                                         Change Password
                                     </Button>
-                                    <Button variant="contained" startIcon={<Delete />} onClick={() => handleDeleteButton(user)} sx={{ margin: "0 3px" }} disabled={user.id === 1}>
+                                    <Button variant="contained" color="error" startIcon={<Delete />} onClick={() => handleDeleteButton(user)} sx={{ margin: "0 3px" }} disabled={user.id === 1}>
                                         Delete
                                     </Button>
                                 </TableCell>
@@ -142,7 +142,7 @@ const Accounts = () => {
                     sx={{ float: "right", margin: "0 8vw" }}
                     onClick={handleAddButton}
                 >
-                    Add Account
+                    Create New Account
                 </Button>
             </div>
 
@@ -150,6 +150,7 @@ const Accounts = () => {
                 openModal={openModal}
                 setOpenModal={setOpenModal}
                 title={modalConfig.title}
+                width={"40vw"}
             >
                 {modalConfig.content}
             </Modal>

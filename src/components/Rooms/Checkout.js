@@ -5,23 +5,29 @@ import Modal from "../Modal";
 import Transfer from "./Transfer";
 import { useAuthUser } from "react-auth-kit";
 import CheckOutConfirmation from "./CheckOutConfirmation";
-import AddTime from "./AddTime";
-import Cancel from "./Cancel";
+import Additional from "./Additional";
+import Abort from "./Abort";
 import Pay from "./Pay"
 
 const GET_TXN_URL = "/txn/";
-const GET_RATE_URL = "/rates/"
 
 const Checkout = (props) => {
     const auth = useAuthUser();
     const { room, setOpenModal } = props;
     const type = room.type === "garage" ? "With Garage" : "Without Garage";
+    const [amenities, setAmenities] = useState({
+        "Extra Pillow": 0,
+        "Extra Towel": 0,
+        "Extra Small Bed": 0,
+        "Extra Bed": 0,
+        "Extra Person": 0
+    })
     const [values, setValues] = useState({
         transaction_no: room.transaction_no,
         bill: 0,
-        duration: 0
+        duration: 0,
+        additional_time: 0
     })
-    const [rate, setRate] = useState(0);
     const [time, setTime] = useState(0);
     const [durationInSeconds, setDurationInSeconds] = useState(0);
     const [openInnerModal, setOpenInnerModal] = useState(false);
@@ -56,12 +62,13 @@ const Checkout = (props) => {
                 bill: parseInt(txn.bill),
                 duration: duration
             }));
-
-            const res = await axios.get(GET_RATE_URL + txn.rate_id);
-            const Rate = res?.data
-            const rate_type = Rate[room.type];
-            const hourly_rate = rate_type.hourly;
-            setRate(parseInt(hourly_rate));
+            setAmenities({
+                "Extra Pillow": txn.extra_pillow,
+                "Extra Towel": txn.extra_towel,
+                "Extra Small Bed": txn.extra_small_bed,
+                "Extra Bed": txn.extra_bed,
+                "Extra Person": txn.extra_person
+            })
         } catch (error) {
             console.log(error.message)
         }
@@ -93,19 +100,17 @@ const Checkout = (props) => {
         setOpenInnerModal(true)
     }
 
-    const handleAddTime = async () => {
+    const handleAdditional = async () => {
         setModalConfig({
             title: `Room ${room.room_no}`,
-            content: <AddTime
+            content: <Additional
                 setOpenInnerModal={setOpenInnerModal}
                 timed_out={false}
-                room_no={room.room_no}
                 transaction_no={room.transaction_no}
-                rate ={rate}
             />
         })
 
-       setOpenInnerModal(true)
+        setOpenInnerModal(true)
     }
 
     const handleTransfer = async () => {
@@ -124,8 +129,8 @@ const Checkout = (props) => {
 
     const handleCancel = async () => {
         setModalConfig({
-            title: "Cancel Room",
-            content: <Cancel
+            title: "Abort Room",
+            content: <Abort
                 setOpenInnerModal={setOpenInnerModal}
                 setOpenModal={setOpenModal}
                 room={room}
@@ -168,12 +173,15 @@ const Checkout = (props) => {
             <Typography variant="h6">
                 Time Left: {formatTime(time)}
             </Typography>
+            {Object.entries(amenities).map(([key, value]) => (
+                value > 0 ? <Typography variant="h6">{`${key}: ${value}`}</Typography> : null
+            ))}
             <Typography variant="h6">
                 Bill: {values.bill}
-                <Button 
+                <Button
                     variant="contained"
                     onClick={handlePay}
-                    sx={{width: "25%", position: "absolute", right: "15%"}}
+                    sx={{ width: "25%", position: "absolute", right: "15%" }}
                     disabled={values.bill <= 0}
                 >
                     {values.bill > 0 ? "Pay" : "Paid"}
@@ -182,9 +190,9 @@ const Checkout = (props) => {
 
             <div style={{ textAlign: "center", marginTop: "10%" }}>
                 <Button variant="contained" onClick={handleCheckout} sx={{ margin: "1% 1%", width: "48%" }}>Check Out</Button>
-                <Button variant="contained" onClick={handleAddTime} sx={{ margin: "1% 1%", width: "48%" }}>Add Time</Button>
+                <Button variant="contained" onClick={handleAdditional} sx={{ margin: "1% 1%", width: "48%" }}>Additional</Button>
                 <Button variant="contained" onClick={handleTransfer} sx={{ margin: "1% 1%", width: "48%" }}>Transfer</Button>
-                <Button variant="contained" onClick={handleCancel} disabled={!((durationInSeconds - time) < 900 || auth().admin)} sx={{ margin: "1% 1%", width: "48%" }}>Abort</Button>
+                <Button variant="contained" color="error" onClick={handleCancel} disabled={!((durationInSeconds - time) < 900 || auth().admin)} sx={{ margin: "1% 1%", width: "48%" }}>Abort</Button>
             </div>
 
             <Modal

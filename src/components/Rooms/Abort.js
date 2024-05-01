@@ -4,7 +4,7 @@ import { useAuthUser } from "react-auth-kit";
 
 const CANCEL_URL = "/txn/cancel";
 
-const Cancel = (props) => {
+const Abort = (props) => {
     const { room, setOpenModal, setOpenInnerModal } = props;
     const auth = useAuthUser();
 
@@ -26,15 +26,15 @@ const Cancel = (props) => {
     return (
         <>
             <Typography variant="h5" sx={{marginBottom: "12%", textAlign: "center"}}>
-                Are you sure you want to Cancel <b>Room {room.room_no}</b>?
+                Are you sure you want to Abort <b>Room {room.room_no}</b>?
             </Typography>
 
             <div style={{ textAlign: "center" }}>
-                <Button variant="contained" onClick={() => handleCheckout()} sx={{ margin: "0 6px" }}>Confirm</Button>
-                <Button variant="contained" onClick={() => setOpenInnerModal(false)} sx={{ margin: "0 6px" }}>Cancel</Button>
+                <Button variant="contained" color="error" onClick={() => handleCheckout()} sx={{ margin: "0 6px" }}>Abort</Button>
+                <Button variant="contained" onClick={() => setOpenInnerModal(false)} sx={{ margin: "0 6px" }}>Close</Button>
             </div>
         </>
     )
 }
 
-export default Cancel
+export default Abort

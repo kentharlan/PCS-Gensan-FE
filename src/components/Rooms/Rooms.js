@@ -371,6 +371,7 @@ const Rooms = () => {
                     openModal={openModal}
                     setOpenModal={setOpenModal}
                     title={modalConfig.title}
+                    width="30vw"
                 >
                     {modalConfig.content}
                 </Modal>
