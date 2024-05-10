@@ -118,7 +118,7 @@ const Checkin = (props) => {
                 </tr>
                 <tr>
                     <td colSpan={2}>
-                        <Typography variant="h6">
+                        <Typography variant="h6" style={{marginBottom: "3%"}}>
                             Status: Vacant
                         </Typography>
                     </td>
@@ -265,13 +265,12 @@ const Checkin = (props) => {
                             autoComplete='off'
                             fullWidth
                             inputProps={{ min: "0" }}
-                            style={{ marginBottom: "5%" }}
                         />
                     </td>
                 </tr>
                 <tr>
                     <td colSpan={2}>
-                        <Typography variant="h6">
+                        <Typography variant="h6" style={{marginTop: "3%"}}>
                             Total: ₱ {total}
                         </Typography>
 
