@@ -66,7 +66,7 @@ const TimedOut = (props) => {
                         Are you sure you want to Check Out <b>Room {room.room_no}</b> with unpaid bill?
                     </Typography>
                     <Typography variant="h5">
-                        Bill: <b style={{color: "red"}}>₱{bill}</b>
+                        Bill: <b style={{color: "red"}}>₱ {bill}</b>
                     </Typography>
                     </>
             }

@@ -255,7 +255,7 @@ const Checkin = (props) => {
                 <tr>
                     <td colSpan={2}>
                         <Typography variant="h6">
-                            Total: {total}
+                            Total: ₱ {total}
                         </Typography>
 
                     </td>

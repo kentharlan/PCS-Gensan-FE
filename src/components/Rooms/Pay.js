@@ -35,7 +35,7 @@ const Pay = (props) => {
     return (
         <>
             <Typography variant="h6">
-                Bill: {bill}
+                Bill: ₱ {bill}
             </Typography>
             
             <TextField

@@ -179,7 +179,7 @@ const History = () => {
                                     <TableCell align="right" style={{ fontWeight: "bold", fontSize: "larger" }}>Total Rooms</TableCell>
                                     <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>{history.totalRooms}</TableCell>
                                     <TableCell align="right" style={{ fontWeight: "bold", fontSize: "larger" }}>Total Revenue</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>₱ {history.totalAmount}</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold", fontSize: "larger" }}>{history.totalAmount ? `₱ ${history.totalAmount}` : '-'}</TableCell>
                                     <TableCell colSpan={3} />
                                 </TableRow>
                             </TableFooter>
@@ -244,7 +244,7 @@ const History = () => {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell align="left">{row.cashier}</TableCell>
-                                        <TableCell align="center">₱ {row.total_amount}</TableCell>
+                                        <TableCell align="center">{row.total_amount ? `₱ ${row.total_amount}` : '-'}</TableCell>
                                         <TableCell align="left">{row.login_dt}</TableCell>
                                         <TableCell align="left">{row.logout_dt}</TableCell>
 
@@ -295,7 +295,7 @@ function Row(props) {
                 <TableCell align="left">{txn.transaction_no}</TableCell>
                 <TableCell align="center">{txn.room_no}</TableCell>
                 <TableCell align="center">{txn.duration}</TableCell>
-                <TableCell align="center">₱ {txn.bill}</TableCell>
+                <TableCell align="center">{txn.bill ? `₱ ${txn.bill}` : '-'}</TableCell>
                 <TableCell align="center">{txn.rate}</TableCell>
                 <TableCell align="left">{txn.dt_check_in}</TableCell>
                 <TableCell align="left">{txn.dt_check_out}</TableCell>
@@ -389,7 +389,7 @@ function Row(props) {
                                                 <TableCell style={{ width: "10%" }} />
                                                 <TableCell style={{ width: "30%" }} align="left">{row.cashier}</TableCell>
                                                 <TableCell style={{ width: "30%" }} align="center">{row.payment_dt}</TableCell>
-                                                <TableCell style={{ width: "30%" }} align="center">₱ {row.amount}</TableCell>
+                                                <TableCell style={{ width: "30%" }} align="center">{row.amount ? `₱ ${row.amount}` : '-'}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>

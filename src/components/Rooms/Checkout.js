@@ -177,7 +177,7 @@ const Checkout = (props) => {
                 value > 0 ? <Typography variant="h6">{`${key}: ${value}`}</Typography> : null
             ))}
             <Typography variant="h6">
-                Bill: {values.bill}
+                Bill: ₱ {values.bill}
                 <Button
                     variant="contained"
                     onClick={handlePay}
