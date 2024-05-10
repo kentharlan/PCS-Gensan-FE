@@ -22,10 +22,11 @@ const RateUpdate = (props) => {
             twelve: rate.no_garage.twelve,
             twenty_four: rate.no_garage.twenty_four
         },
-        extra_pillow: rate.extra_pillow,
         extra_towel: rate.extra_towel,
-        extra_small_bed: rate.extra_small_bed,
-        extra_bed: rate.extra_bed,
+        extra_pillow: rate.extra_pillow,
+        extra_blanket: rate.extra_blanket,
+        extra_single_bed: rate.extra_single_bed,
+        extra_double_bed: rate.extra_double_bed,
         extra_person: rate.extra_person
     };
     const [values, setValues] = useState(initialValues)
@@ -77,7 +78,7 @@ const RateUpdate = (props) => {
         <form onSubmit={handleSubmit}>
             <table>
                 <tr>
-                    <td colSpan={5}>
+                    <td colSpan={2}>
                         <TextField
                             variant="filled"
                             label='Rate Name'
@@ -86,19 +87,24 @@ const RateUpdate = (props) => {
                             onChange={handleInputChange}
                             required
                             autoComplete='off'
-                            sx={{width: '15vw'}}
+                            sx={{ width: "100%" }}
                         />
                     </td>
                 </tr>
                 <tr>
-                    <td colSpan={5}>
-                        <Typography variant="h6" sx={{ marginLeft: "1vw" }}>
-                            With Garage
+                    <td colSpan={6}>
+                        <Typography variant="h6" align="center">
+                            Room Rates
                         </Typography>
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
+                        <Typography variant="h6" align="center">
+                            Garage
+                        </Typography>
+                    </td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -108,10 +114,9 @@ const RateUpdate = (props) => {
                             onChange={handleGarageChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -121,10 +126,9 @@ const RateUpdate = (props) => {
                             onChange={handleGarageChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -134,10 +138,9 @@ const RateUpdate = (props) => {
                             onChange={handleGarageChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -147,10 +150,9 @@ const RateUpdate = (props) => {
                             onChange={handleGarageChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -160,19 +162,16 @@ const RateUpdate = (props) => {
                             onChange={handleGarageChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
                 </tr>
                 <tr>
-                    <td colSpan={5}>
-                        <Typography variant="h6" sx={{ marginLeft: "1vw" }}>
+                    <td style={{ width: "16.67%" }}>
+                        <Typography variant="h6" align="center">
                             Without Garage
                         </Typography>
                     </td>
-                </tr>
-                <tr>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -182,10 +181,9 @@ const RateUpdate = (props) => {
                             onChange={handleNoGarageChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -195,10 +193,9 @@ const RateUpdate = (props) => {
                             onChange={handleNoGarageChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -208,10 +205,9 @@ const RateUpdate = (props) => {
                             onChange={handleNoGarageChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -221,10 +217,9 @@ const RateUpdate = (props) => {
                             onChange={handleNoGarageChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -234,32 +229,18 @@ const RateUpdate = (props) => {
                             onChange={handleNoGarageChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
                 </tr>
                 <tr>
-                    <td colSpan={5}>
-                        <Typography variant="h6" align="left" sx={{ marginLeft: "1vw" }}>
+                    <td colSpan={6}>
+                        <Typography variant="h6" align="center">
                             Amenities
                         </Typography>
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <TextField
-                            type="number"
-                            variant="filled"
-                            label='Extra Pillow'
-                            name="extra_pillow"
-                            value={values.extra_pillow}
-                            onChange={handleInputChange}
-                            required
-                            autoComplete='off'
-                            sx={{width: '10vw'}}
-                        />
-                    </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -269,36 +250,57 @@ const RateUpdate = (props) => {
                             onChange={handleInputChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
-                            label='Extra Small Bed'
-                            name="extra_small_bed"
-                            value={values.extra_small_bed}
+                            label='Extra Pillow'
+                            name="extra_pillow"
+                            value={values.extra_pillow}
                             onChange={handleInputChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
-                            label='Extra Bed'
-                            name="extra_bed"
-                            value={values.extra_bed}
+                            label='Extra Blanket'
+                            name="extra_blanket"
+                            value={values.extra_blanket}
                             onChange={handleInputChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
-                    <td>
+                    <td style={{ width: "16.67%" }}>
+                        <TextField
+                            type="number"
+                            variant="filled"
+                            label='Extra Single Bed'
+                            name="extra_single_bed"
+                            value={values.extra_single_bed}
+                            onChange={handleInputChange}
+                            required
+                            autoComplete='off'
+                        />
+                    </td>
+                    <td style={{ width: "16.67%" }}>
+                        <TextField
+                            type="number"
+                            variant="filled"
+                            label='Extra Double Bed'
+                            name="extra_double_bed"
+                            value={values.extra_double_bed}
+                            onChange={handleInputChange}
+                            required
+                            autoComplete='off'
+                        />
+                    </td>
+                    <td style={{ width: "16.67%" }}>
                         <TextField
                             type="number"
                             variant="filled"
@@ -308,7 +310,6 @@ const RateUpdate = (props) => {
                             onChange={handleInputChange}
                             required
                             autoComplete='off'
-                            sx={{width: '10vw'}}
                         />
                     </td>
                 </tr>

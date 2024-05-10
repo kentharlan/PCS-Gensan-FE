@@ -63,10 +63,11 @@ const Checkout = (props) => {
                 duration: duration
             }));
             setAmenities({
-                "Extra Pillow": txn.extra_pillow,
                 "Extra Towel": txn.extra_towel,
-                "Extra Small Bed": txn.extra_small_bed,
-                "Extra Bed": txn.extra_bed,
+                "Extra Pillow": txn.extra_pillow,
+                "Extra Blanket": txn.extra_blanket,
+                "Extra Single Bed": txn.extra_single_bed,
+                "Extra Double Bed": txn.extra_double_bed,
                 "Extra Person": txn.extra_person
             })
         } catch (error) {

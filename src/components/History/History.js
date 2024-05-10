@@ -265,18 +265,20 @@ function Row(props) {
     const [open, setOpen] = React.useState(false);
     const amenities = {
         "Additional Time": txn.additional_time,
-        "Extra Pillow": txn.extra_pillow,
         "Extra Towel": txn.extra_towel,
-        "Extra Small Bed": txn.extra_small_bed,
-        "Extra Bed": txn.extra_bed,
+        "Extra Pillow": txn.extra_pillow,
+        "Extra Blanket": txn.extra_blanket,
+        "Extra Single Bed": txn.extra_single_bed,
+        "Extra Double Bed": txn.extra_double_bed,
         "Extra Person": txn.extra_person
     }
     const amounts = {
         "Additional Time": txn.additional_time_amount,
-        "Extra Pillow": txn.extra_pillow_amount,
         "Extra Towel": txn.extra_towel_amount,
-        "Extra Small Bed": txn.extra_small_bed_amount,
-        "Extra Bed": txn.extra_bed_amount,
+        "Extra Pillow": txn.extra_pillow_amount,
+        "Extra Blanket": txn.extra_blanket_amount,
+        "Extra Single Bed": txn.extra_single_bed_amount,
+        "Extra Double Bed": txn.extra_double_bed_amount,
         "Extra Person": txn.extra_person_amount
     }
 

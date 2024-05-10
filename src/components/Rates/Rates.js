@@ -221,7 +221,7 @@ function Row(props) {
                                     <TableRow>
                                         <TableCell align="center">
                                             <Typography fontWeight="bold">
-                                                
+                                                Extra Towel
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="center">
@@ -231,17 +231,17 @@ function Row(props) {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Typography fontWeight="bold">
-                                                Extra Towel
+                                                Extra Blanket
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="center">
                                             <Typography fontWeight="bold">
-                                                Extra Small Bed
+                                                Extra Single Bed
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="center">
                                             <Typography fontWeight="bold">
-                                                Extra Bed
+                                                Extra Double Bed
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="center">
@@ -253,11 +253,11 @@ function Row(props) {
                                 </TableHead>
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell align="center"></TableCell>
-                                        <TableCell align="center">₱ {rate.extra_pillow}</TableCell>
                                         <TableCell align="center">₱ {rate.extra_towel}</TableCell>
-                                        <TableCell align="center">₱ {rate.extra_small_bed}</TableCell>
-                                        <TableCell align="center">₱ {rate.extra_bed}</TableCell>
+                                        <TableCell align="center">₱ {rate.extra_pillow}</TableCell>
+                                        <TableCell align="center">₱ {rate.extra_blanket}</TableCell>
+                                        <TableCell align="center">₱ {rate.extra_single_bed}</TableCell>
+                                        <TableCell align="center">₱ {rate.extra_double_bed}</TableCell>
                                         <TableCell align="center">₱ {rate.extra_person}</TableCell>
                                     </TableRow>
                                 </TableBody>

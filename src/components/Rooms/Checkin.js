@@ -13,10 +13,11 @@ const Checkin = (props) => {
         rate_id: '',
         base_time: 3,
         additional_time: 0,
-        extra_pillow: 0,
         extra_towel: 0,
-        extra_small_bed: 0,
-        extra_bed: 0,
+        extra_pillow: 0,
+        extra_blanket: 0,
+        extra_single_bed: 0,
+        extra_double_bed: 0,
         extra_person: 0
     }
     const [values, setValues] = useState(initialValues);
@@ -70,10 +71,11 @@ const Checkin = (props) => {
         const time_rate = rate_type[base_time_name];
         const total = parseInt(time_rate)
             + (parseInt(rate_type.hourly) * parseInt(values.additional_time))
-            + (parseInt(values.extra_pillow) * parseInt(rate.extra_pillow))
             + (parseInt(values.extra_towel) * parseInt(rate.extra_towel))
-            + (parseInt(values.extra_small_bed) * parseInt(rate.extra_small_bed))
-            + (parseInt(values.extra_bed) * parseInt(rate.extra_bed))
+            + (parseInt(values.extra_pillow) * parseInt(rate.extra_pillow))
+            + (parseInt(values.extra_blanket) * parseInt(rate.extra_blanket))
+            + (parseInt(values.extra_single_bed) * parseInt(rate.extra_single_bed))
+            + (parseInt(values.extra_double_bed) * parseInt(rate.extra_double_bed))
             + (parseInt(values.extra_person) * parseInt(rate.extra_person))
         setTotal(total);
     }
@@ -182,9 +184,9 @@ const Checkin = (props) => {
                         <TextField
                             variant="filled"
                             type="number"
-                            label='Extra Pillows'
-                            name="extra_pillow"
-                            value={values.extra_pillow}
+                            label='Extra Towels'
+                            name="extra_towel"
+                            value={values.extra_towel}
                             onChange={handleChange}
                             required
                             autoComplete='off'
@@ -195,9 +197,9 @@ const Checkin = (props) => {
                         <TextField
                             variant="filled"
                             type="number"
-                            label='Extra Towels'
-                            name="extra_towel"
-                            value={values.extra_towel}
+                            label='Extra Pillows'
+                            name="extra_pillow"
+                            value={values.extra_pillow}
                             onChange={handleChange}
                             required
                             autoComplete='off'
@@ -210,9 +212,9 @@ const Checkin = (props) => {
                         <TextField
                             variant="filled"
                             type="number"
-                            label='Extra Small Bed'
-                            name="extra_small_bed"
-                            value={values.extra_small_bed}
+                            label='Extra Blanket'
+                            name="extra_blanket"
+                            value={values.extra_blanket}
                             onChange={handleChange}
                             required
                             autoComplete='off'
@@ -224,9 +226,9 @@ const Checkin = (props) => {
                         <TextField
                             variant="filled"
                             type="number"
-                            label='Extra Bed'
-                            name="extra_bed"
-                            value={values.extra_bed}
+                            label='Extra Single Bed'
+                            name="extra_single_bed"
+                            value={values.extra_single_bed}
                             onChange={handleChange}
                             required
                             autoComplete='off'
@@ -234,8 +236,23 @@ const Checkin = (props) => {
                             inputProps={{ min: "0" }}
                         />
                     </td>
+
                 </tr>
                 <tr>
+                    <td>
+                        <TextField
+                            variant="filled"
+                            type="number"
+                            label='Extra Double Bed'
+                            name="extra_double_bed"
+                            value={values.extra_double_bed}
+                            onChange={handleChange}
+                            required
+                            autoComplete='off'
+                            fullWidth
+                            inputProps={{ min: "0" }}
+                        />
+                    </td>
                     <td>
                         <TextField
                             variant="filled"

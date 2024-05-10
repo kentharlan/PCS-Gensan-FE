@@ -8,10 +8,11 @@ const Additional = (props) => {
     const { transaction_no, setOpenInnerModal, setOpenModal, timed_out } = props;
     const [values, setValues] = useState({
         additional_time: 0,
-        extra_pillow: 0,
         extra_towel: 0,
-        extra_small_bed: 0,
-        extra_bed: 0,
+        extra_pillow: 0,
+        extra_blanket: 0,
+        extra_single_bed: 0,
+        extra_double_bed: 0,
         extra_person: 0
     })
 
@@ -56,7 +57,7 @@ const Additional = (props) => {
                         <TextField
                             variant="filled"
                             type="number"
-                            label='Additional Time in Hours'
+                            label='Additional Time'
                             name="additional_time"
                             value={values.additional_time}
                             onChange={handleChange}
@@ -78,9 +79,9 @@ const Additional = (props) => {
                         <TextField
                             variant="filled"
                             type="number"
-                            label='Extra Pillows'
-                            name="extra_pillow"
-                            value={values.extra_pillow}
+                            label='Extra Towels'
+                            name="extra_towel"
+                            value={values.extra_towel}
                             onChange={handleChange}
                             required
                             autoComplete='off'
@@ -91,9 +92,9 @@ const Additional = (props) => {
                         <TextField
                             variant="filled"
                             type="number"
-                            label='Extra Towels'
-                            name="extra_towel"
-                            value={values.extra_towel}
+                            label='Extra Pillows'
+                            name="extra_pillow"
+                            value={values.extra_pillow}
                             onChange={handleChange}
                             required
                             autoComplete='off'
@@ -106,9 +107,9 @@ const Additional = (props) => {
                         <TextField
                             variant="filled"
                             type="number"
-                            label='Extra Small Bed'
-                            name="extra_small_bed"
-                            value={values.extra_small_bed}
+                            label='Extra Blanket'
+                            name="extra_blanket"
+                            value={values.extra_blanket}
                             onChange={handleChange}
                             required
                             autoComplete='off'
@@ -120,9 +121,9 @@ const Additional = (props) => {
                         <TextField
                             variant="filled"
                             type="number"
-                            label='Extra Bed'
-                            name="extra_bed"
-                            value={values.extra_bed}
+                            label='Extra Single Bed'
+                            name="extra_single_bed"
+                            value={values.extra_single_bed}
                             onChange={handleChange}
                             required
                             autoComplete='off'
@@ -132,6 +133,20 @@ const Additional = (props) => {
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        <TextField
+                            variant="filled"
+                            type="number"
+                            label='Extra Double Bed'
+                            name="extra_double_bed"
+                            value={values.extra_double_bed}
+                            onChange={handleChange}
+                            required
+                            autoComplete='off'
+                            fullWidth
+                            inputProps={{ min: "0" }}
+                        />
+                    </td>
                     <td>
                         <TextField
                             variant="filled"
