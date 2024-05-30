@@ -53,7 +53,7 @@ const ChangePass = (props) => {
                             variant="filled"
                             label='Confirm Password'
                             type="password"
-                            name="confirmPassword"
+                            name="confirm_password"
                             value={values.confirm_password}
                             onChange={handeInputChange}
                             required
